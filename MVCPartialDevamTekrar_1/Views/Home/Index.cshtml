@@ -1,0 +1,69 @@
+﻿@model HomeVM
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Isim</th>
+            <th>SoyIsim</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Employee item in Model.Employees)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button id="btnGetAll" class="btn btn-primary">
+
+    Kategorileri Getir
+
+</button>
+
+<div class="container">
+    <div class="row">
+       <div class="col-md-6">
+           <ul id="kategoriListesi">
+
+           </ul>
+       </div>
+        <div class="col-md-6">
+            <ul id="urunListesi">
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //Eğer bir PartialView'ı BackEnd üzerinden tetiklemek istiyorsanız Ajax ile bunu yapabilirsiniz...
+
+    //JavaScript tamamen fonksiyonlar üzerinden çalışan bir yapıdır...JavaScript'te her görev bir fonksiyon demektir...
+
+    //JQueery'nin get fonksiyonu sizden iki argüman ister... 1. argüman nereye gideceğidir... Buraa RputeConfig paterninize göre string bir rota vermek zorundasınız... 2. argüman da eğer gittiğiniz Action geriye değer döndürüyorsa o değerin argüman olarak verebildiği bir anonim fonksiyon yazılır, değer döndürmüyorsa da argüman almayan bir anonim fonksiyon yazılır...
+
+    //Öncelikle JQuery kullandığımızı belirtmek için $ sembolü yazmalıyız... Bunun yanında sayfanın hazır olduğunun kesinleşmesi için bir görev belirlemeliyiz(anonim fonksiyon)
+
+    $(function () {
+        $("#btnGetAll").click(function () {
+            $.get("/Home/GetAllCategories", function (gelenSayfa) {
+                $("#kategoriListesi").html(gelenSayfa);
+            })
+
+            $.get("/Home/GetAllProducts", function (sayfaGelen) {
+                $("#urunListesi").html(sayfaGelen);
+            })
+
+        })
+    })
+
+</script>
